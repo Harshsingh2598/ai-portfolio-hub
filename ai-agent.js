@@ -1,19 +1,22 @@
-// AuraPort - AI Portfolio Assistant Agent (ai-agent.js)
+// AuraOS - Upgraded AI Portfolio Assistant Agent (ai-agent.js)
 
 class AIAgent {
   constructor(portfolioData) {
     this.data = portfolioData;
     this.apiKey = localStorage.getItem("gemini_portfolio_api_key") || "";
-    this.chatHistory = []; // Tracks messages for LLM mode
+    this.chatHistory = [];
     this.isTyping = false;
+    this.synth = window.speechSynthesis;
+    this.recognition = null;
+    this.soundActive = true; // Alerts & speech synthesis toggle
+
+    this.initSpeechRecognition();
   }
 
-  // Check if LLM Mode is active
   isLLMActive() {
     return this.apiKey && this.apiKey.trim().length > 0;
   }
 
-  // Get the system prompt context summarizing Harsh's resume
   getSystemPrompt() {
     const p = this.data.profile;
     const skillsList = this.data.skills.map(c => `- ${c.category}: ${c.items.map(i => i.name).join(", ")}`).join("\n");
@@ -60,7 +63,6 @@ ${achievementsList}
 Ensure you ONLY answer questions using the above facts. If asked about something outside this context, politely guide the conversation back to Harsh's skills, projects, arm wrestling achievements, or booking a call/contacting him. Do not hallucinate credentials.`;
   }
 
-  // Set the Gemini API Key
   setApiKey(key) {
     this.apiKey = key;
     if (key) {
@@ -70,57 +72,111 @@ Ensure you ONLY answer questions using the above facts. If asked about something
     }
   }
 
-  // Respond using Offline Smart Matching Engine (Client-side keyword matching)
+  // 1. Initialize Web Speech Recognition API
+  initSpeechRecognition() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      this.recognition = new SpeechRecognition();
+      this.recognition.continuous = false;
+      this.recognition.lang = 'en-US';
+      this.recognition.interimResults = false;
+      this.recognition.maxAlternatives = 1;
+    } else {
+      console.warn("Web Speech recognition not supported in this browser.");
+    }
+  }
+
+  // Speak response out loud using Web Speech Synthesis
+  speak(text) {
+    if (!this.soundActive || !this.synth) return;
+    this.synth.cancel(); // Stop any active voice
+
+    // Clean markdown characters before speaking
+    const cleanText = text
+      .replace(/\*\*|`|\*|#/g, "")
+      .replace(/\[(.*?)\]\((.*?)\)/g, "$1");
+
+    const utterance = new SpeechSynthesisUtterance(cleanText.substring(0, 200)); // Limit to first 200 chars for briefing
+    
+    // Choose a professional robotic or deep voice if possible
+    const voices = this.synth.getVoices();
+    const preferredVoice = voices.find(v => v.name.includes("Google US English") || v.name.includes("Microsoft David"));
+    if (preferredVoice) utterance.voice = preferredVoice;
+    
+    utterance.pitch = 0.95; // Slightly lower pitch for cyber feel
+    utterance.rate = 1.05;  // Slightly faster speech
+    
+    this.synth.speak(utterance);
+  }
+
+  // Trigger sound synth alerts (sound triggers)
+  playAudioAlert(type) {
+    if (!this.soundActive) return;
+    
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    
+    osc.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    
+    if (type === "success") {
+      // High rising chime
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
+      gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.2);
+    } else if (type === "alert") {
+      // Alert synth
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(110, audioCtx.currentTime + 0.1);
+      gainNode.gain.setValueAtTime(0.12, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.3);
+    } else if (type === "click") {
+      // Short click sound
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+      gainNode.gain.setValueAtTime(0.03, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.05);
+    }
+  }
+
+  // Respond using Offline Smart Matching Engine
   respondOffline(query) {
     const q = query.toLowerCase();
     const p = this.data.profile;
     
-    // Greeting
     if (q.match(/\b(hi|hello|hey|greetings|wassup|yo)\b/)) {
-      return `Hello! I am Harsh's AI Agent. I can tell you about my AI/ML projects (like **NexusAST** or **SolarMind AI**), my data science skills, or my sports background. What would you like to know?`;
+      return `Hello! I am Harsh's AI Workstation Replica. I can outline my projects (like **NexusAST** or **SolarMind AI**), my technical skills, or my championships in Arm Wrestling. What would you like to explore?`;
     }
     
-    // Arm Wrestling / Hobbies / Gym
     if (q.includes("arm") || q.includes("wrestling") || q.includes("gym") || q.includes("trainer") || q.includes("champion") || q.includes("sports") || q.includes("hobby") || q.includes("kabaddi") || q.includes("cricket")) {
-      const armWrestling = this.data.achievements.find(a => a.title.includes("Arm Wrestling"))?.description || "";
-      const gym = this.data.achievements.find(a => a.title.includes("Gym"))?.description || "";
-      return `💪 **Sports & Hobbies Background:**
+      return `💪 **Sports & Physical Discipline:**
       
 * **Arm Wrestling:** I am a **Three-time Maharashtra State Champion** and a **National Level Champion** in Arm Wrestling! This sport has taught me extreme discipline, persistence, and focus.
 * **Gym Trainer:** I worked as a fitness gym trainer, mentoring individuals in strength training, biomechanics, and diet targets.
-* **Other Sports:** I hold state/district certificates in Cricket and Kabaddi, and I've compered cultural events.
+* **Other Sports:** I hold state/district certificates in Cricket and Kabaddi.
 * **Hobbies:** In my free time, I enjoy playing Cricket, Arm Wrestling practice, and exploring fitness.`;
     }
 
-    // Projects overview
     if (q.includes("project") || q.includes("portfolio") || q.includes("work") || q.includes("build") || q.includes("developed")) {
-      // Check for specific projects first
-      if (q.includes("nexus") || q.includes("ast") || q.includes("rag")) {
-        return this.getProjectResponse("nexusast");
-      }
-      if (q.includes("solar") || q.includes("mind") || q.includes("forecast") || q.includes("yield")) {
-        return this.getProjectResponse("solarmind-ai");
-      }
-      if (q.includes("omni") || q.includes("customer") || q.includes("tenant") || q.includes("rbac")) {
-        return this.getProjectResponse("omniagent");
-      }
-      if (q.includes("city") || q.includes("metro") || q.includes("traffic") || q.includes("shield")) {
-        return this.getProjectResponse("smartcity");
-      }
-      if (q.includes("loss") || q.includes("drrt") || q.includes("calculator") || q.includes("securities")) {
-        return this.getProjectResponse("drrt-calculator");
-      }
-      if (q.includes("crop") || q.includes("recommend") || q.includes("agriculture")) {
-        return this.getProjectResponse("crop-rec");
-      }
-      if (q.includes("fitness") || q.includes("assistant") || q.includes("nutrition")) {
-        return this.getProjectResponse("ai-fitness");
-      }
-      if (q.includes("sales") || q.includes("dashboard") || q.includes("power bi") || q.includes("dax")) {
-        return this.getProjectResponse("sales-dashboard");
-      }
+      if (q.includes("nexus") || q.includes("ast") || q.includes("rag")) return this.getProjectResponse("nexusast");
+      if (q.includes("solar") || q.includes("mind") || q.includes("forecast") || q.includes("yield")) return this.getProjectResponse("solarmind-ai");
+      if (q.includes("omni") || q.includes("customer") || q.includes("tenant") || q.includes("rbac")) return this.getProjectResponse("omniagent");
+      if (q.includes("city") || q.includes("metro") || q.includes("traffic") || q.includes("shield")) return this.getProjectResponse("smartcity");
+      if (q.includes("loss") || q.includes("drrt") || q.includes("calculator") || q.includes("securities")) return this.getProjectResponse("drrt-calculator");
+      if (q.includes("crop") || q.includes("recommend") || q.includes("agriculture")) return this.getProjectResponse("crop-rec");
+      if (q.includes("fitness") || q.includes("assistant") || q.includes("nutrition")) return this.getProjectResponse("ai-fitness");
+      if (q.includes("sales") || q.includes("dashboard") || q.includes("power bi") || q.includes("dax")) return this.getProjectResponse("sales-dashboard");
 
-      // Return list of all projects
       let resp = `I have built several core projects in **Generative AI**, **Machine Learning**, **BI Visualization**, and **Automation**. Here are some key ones:
       
 `;
@@ -131,35 +187,17 @@ Ensure you ONLY answer questions using the above facts. If asked about something
       return resp;
     }
 
-    // Specific projects queried directly
-    if (q.includes("nexusast") || q.includes("nexus")) {
-      return this.getProjectResponse("nexusast");
-    }
-    if (q.includes("solarmind") || q.includes("solar")) {
-      return this.getProjectResponse("solarmind-ai");
-    }
-    if (q.includes("omniagent") || q.includes("omni")) {
-      return this.getProjectResponse("omniagent");
-    }
-    if (q.includes("smartcity") || q.includes("smart city") || q.includes("command center")) {
-      return this.getProjectResponse("smartcity");
-    }
-    if (q.includes("drrt") || q.includes("loss calculator")) {
-      return this.getProjectResponse("drrt-calculator");
-    }
-    if (q.includes("crop")) {
-      return this.getProjectResponse("crop-rec");
-    }
-    if (q.includes("fitness")) {
-      return this.getProjectResponse("ai-fitness");
-    }
-    if (q.includes("sales") || q.includes("power bi") || q.includes("dax")) {
-      return this.getProjectResponse("sales-dashboard");
-    }
+    if (q.includes("nexusast") || q.includes("nexus")) return this.getProjectResponse("nexusast");
+    if (q.includes("solarmind") || q.includes("solar")) return this.getProjectResponse("solarmind-ai");
+    if (q.includes("omniagent") || q.includes("omni")) return this.getProjectResponse("omniagent");
+    if (q.includes("smartcity") || q.includes("smart city") || q.includes("command center")) return this.getProjectResponse("smartcity");
+    if (q.includes("drrt") || q.includes("loss calculator")) return this.getProjectResponse("drrt-calculator");
+    if (q.includes("crop")) return this.getProjectResponse("crop-rec");
+    if (q.includes("fitness")) return this.getProjectResponse("ai-fitness");
+    if (q.includes("sales") || q.includes("power bi") || q.includes("dax")) return this.getProjectResponse("sales-dashboard");
 
-    // Skills
     if (q.includes("skill") || q.includes("technologies") || q.includes("know") || q.includes("languages") || q.includes("python") || q.includes("sql") || q.includes("framework")) {
-      let resp = `💻 **My Technical Skills Grid:**\n\n`;
+      let resp = `💻 **Technical Skills Grid:**\n\n`;
       this.data.skills.forEach(cat => {
         resp += `**${cat.category}:**\n`;
         cat.items.forEach(item => {
@@ -170,9 +208,8 @@ Ensure you ONLY answer questions using the above facts. If asked about something
       return resp;
     }
 
-    // Contact details
     if (q.includes("contact") || q.includes("email") || q.includes("phone") || q.includes("hire") || q.includes("call") || q.includes("message") || q.includes("linkedin") || q.includes("github")) {
-      return `📞 **How to reach Harsh Singh:**
+      return `📞 **Contact Interface:**
       
 * **Email:** [${p.email}](mailto:${p.email})
 * **Phone:** ${p.phone}
@@ -180,10 +217,9 @@ Ensure you ONLY answer questions using the above facts. If asked about something
 * **GitHub:** [github.com/Harshsingh2598](${p.github})
 * **Location:** ${p.location}
       
-Feel free to use the contact form on this website to drop a message, or write directly to my email!`;
+Feel free to use the contact panel or CLI command \`contact\`!`;
     }
 
-    // Education / College / Degree / University
     if (q.includes("education") || q.includes("college") || q.includes("degree") || q.includes("study") || q.includes("academic") || q.includes("imarticus") || q.includes("nkt") || q.includes("bsc") || q.includes("school")) {
       let resp = `🎓 **Education & Academic Background:**\n\n`;
       this.data.timeline.forEach(item => {
@@ -192,20 +228,15 @@ Feel free to use the contact form on this website to drop a message, or write di
       return resp;
     }
 
-    // Research paper
     if (q.includes("research") || q.includes("paper") || q.includes("publish") || q.includes("co-author") || q.includes("journal")) {
-      const paper = this.data.achievements.find(a => a.title.includes("Research"))?.description || "";
       return `📄 **Published Research Paper:**
       
-During my B.Sc. studies at NKT College, I co-authored a research paper with my college professor. It covers artificial neural networks and data analysis, and has been successfully published in an academic journal. 
-
-This academic foundation fuels my current work in LLMs, prompt engineering, and deep learning structures!`;
+During my B.Sc. studies at NKT College, I co-authored a research paper with my college professor. It covers artificial neural network architectures and data analysis, and has been successfully published in an academic journal.`;
     }
 
-    // Fallback search response
     return `I detected your question might be about Harsh's profile, but I didn't find specific matches. 
     
-Harsh is an **AI Engineer & Data Scientist** specializing in LLM applications, RAG pipelines (NexusAST), solar telemetry forecasting (SolarMind AI), multi-tenant agent nodes (OmniAgent), and Power BI business intelligence.
+Harsh is an **AI Engineer & Data Scientist** specializing in LLM applications, RAG pipelines (NexusAST), solar yield forecasting (SolarMind AI), multi-tenant agent nodes (OmniAgent), and Power BI.
     
 **Quick Details:**
 - **Skills:** Python, SQL, Generative AI, RAG, LangChain, PyTorch, Power BI.
@@ -213,19 +244,18 @@ Harsh is an **AI Engineer & Data Scientist** specializing in LLM applications, R
 - **Athletics:** 3x Maharashtra State & National Arm Wrestling Champion!
 - **Email:** [${p.email}](mailto:${p.email}) | **Phone:** ${p.phone}
 
-*Tip: Try entering your Gemini API Key in the settings panel (gear icon at the top right) to activate true conversational intelligence!*`;
+*Tip: Try entering your Gemini API Key in the settings panel (slider icon at the top right) to activate true conversational intelligence!*`;
   }
 
-  // Helper to format a single project's offline detail card
   getProjectResponse(id) {
     const prj = this.data.projects.find(p => p.id === id);
     if (!prj) return `Project not found.`;
     
-    return `📁 **Project Showcase: ${prj.title}**
+    return `📁 **Project: ${prj.title}**
 *${prj.tagline}*
 _${prj.summary}_
 
-**Project Details:**
+**Details:**
 ${prj.description}
 
 **Tech Stack:**
@@ -234,23 +264,19 @@ ${prj.stack.map(s => `\`${s}\``).join(" | ")}
 **Key Highlights:**
 ${prj.highlights.map(h => `* ${h}`).join("\n")}
 
-${prj.github ? `[View GitHub Repo](${prj.github})` : ""} ${prj.live ? `| [Live Demo](${prj.live})` : ""}`;
+${prj.github ? `[View GitHub Repo](${prj.github})` : ""}`;
   }
 
   // Respond using LLM Live Mode (Gemini API)
   async respondLLM(query) {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.apiKey}`;
     
-    // Add current user message to tracking
     this.chatHistory.push({
       role: "user",
       parts: [{ text: query }]
     });
 
-    // Build payload including system context
     const systemPrompt = this.getSystemPrompt();
-    
-    // Format full messages stream
     const contents = [
       {
         role: "user",
@@ -262,7 +288,6 @@ ${prj.github ? `[View GitHub Repo](${prj.github})` : ""} ${prj.live ? `| [Live D
       }
     ];
 
-    // Append history
     this.chatHistory.forEach(msg => contents.push(msg));
 
     try {
@@ -287,13 +312,11 @@ ${prj.github ? `[View GitHub Repo](${prj.github})` : ""} ${prj.live ? `| [Live D
       const data = await response.json();
       const botReply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I encountered an issue processing my model output.";
       
-      // Add response to tracking
       this.chatHistory.push({
         role: "model",
         parts: [{ text: botReply }]
       });
 
-      // Keep history bounded to last 10 turns
       if (this.chatHistory.length > 20) {
         this.chatHistory = this.chatHistory.slice(this.chatHistory.length - 20);
       }
@@ -310,15 +333,19 @@ ${prj.github ? `[View GitHub Repo](${prj.github})` : ""} ${prj.live ? `| [Live D
 
   // Core answer route
   async ask(query) {
+    let response;
     if (this.isLLMActive()) {
-      return await this.respondLLM(query);
+      response = await this.respondLLM(query);
     } else {
-      // Simulate delay for a natural feel
-      return new Promise((resolve) => {
+      response = await new Promise((resolve) => {
         setTimeout(() => {
           resolve(this.respondOffline(query));
-        }, 600);
+        }, 500);
       });
     }
+
+    // Speak it out loud if sound is enabled
+    this.speak(response);
+    return response;
   }
 }

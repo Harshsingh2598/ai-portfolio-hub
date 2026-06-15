@@ -3,17 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Harsh Singh | AI Engineer & Data Scientist Portfolio</title>
+  <title>Harsh Singh | AuraOS: AI Developer Workstation & Portfolio</title>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- Cyberpunk Scanlines overlay -->
+  <div class="scanlines"></div>
 
   <!-- Glowing background blobs -->
   <div class="glow-bg">
@@ -22,330 +25,305 @@
     <div class="blob blob-3"></div>
   </div>
 
-  <!-- Header Navigation -->
-  <header class="header">
-    <div class="logo">
-      <span class="logo-text">HS<span class="dot">.</span></span>
-    </div>
+  <!-- Main Desktop Wrapper -->
+  <div class="os-container">
     
-    <nav class="nav">
-      <a href="#about" class="nav-link">About</a>
-      <a href="#skills" class="nav-link">Skills</a>
-      <a href="#projects" class="nav-link">Projects</a>
-      <a href="#timeline" class="nav-link">Experience</a>
-      <a href="#achievements" class="nav-link">Achievements</a>
-      <a href="#contact" class="nav-link">Contact</a>
-    </nav>
-    
-    <div class="header-actions">
-      <button class="chat-toggle-btn" id="open-chat-btn" title="Open AI Assistant">
-        <i class="fas fa-robot"></i> Ask AI
-      </button>
-      <a href="#contact" class="hire-btn">Hire Me</a>
-      <button class="mobile-menu-btn" id="mobile-toggle" aria-label="Toggle menu">
-        <i class="fas fa-bars"></i>
-      </button>
-    </div>
-  </header>
-
-  <!-- Mobile Navigation Drawer -->
-  <div class="mobile-nav" id="mobile-nav">
-    <a href="#about" class="mobile-link">About</a>
-    <a href="#skills" class="mobile-link">Skills</a>
-    <a href="#projects" class="mobile-link">Projects</a>
-    <a href="#timeline" class="mobile-link">Experience</a>
-    <a href="#achievements" class="mobile-link">Achievements</a>
-    <a href="#contact" class="mobile-link">Contact</a>
-    <button class="mobile-chat-btn" id="mobile-chat-btn"><i class="fas fa-robot"></i> Ask AI Assistant</button>
-  </div>
-
-  <main>
-    <!-- Hero Section -->
-    <section class="hero-section" id="hero">
-      <div class="hero-content">
-        <div class="hero-badge animate-fade-in">
-          <span class="badge-icon">✨</span>
-          <span class="badge-text" id="hero-badge-text">Available for Opportunities</span>
-        </div>
-        <h1 class="hero-title">
-          Hi, I am <span class="gradient-text" id="hero-name">Harsh Singh</span>
-        </h1>
-        <div class="typewriter-container">
-          <span class="typewriter-text" id="typewriter"></span><span class="cursor">|</span>
-        </div>
-        <p class="hero-description" id="hero-tagline">
-          Building intelligent systems powered by AI, data, and automation.
-        </p>
-        <div class="hero-ctas">
-          <a href="#projects" class="primary-btn">View Projects</a>
-          <button class="secondary-btn" id="hero-ask-ai"><i class="fas fa-comment-dots"></i> Chat with AI Clone</button>
-        </div>
-        <div class="hero-socials" id="hero-socials">
-          <!-- Social icons generated dynamically -->
-        </div>
-      </div>
-      <div class="hero-visual">
-        <div class="visual-card-wrapper">
-          <div class="glass-card visual-card">
-            <div class="card-header">
-              <span class="pulse-dot"></span>
-              <span class="card-title-text">AI Agent Active</span>
-            </div>
-            <div class="chat-bubble-preview">
-              <div class="avatar-sm">🤖</div>
-              <div class="bubble-text">Ask me about my AI/ML background, 3x Arm Wrestling Championship, or projects like NexusAST!</div>
-            </div>
-            <div class="card-prompt-hint">
-              <span>Try: "Show me your code RAG project"</span>
-              <i class="fas fa-arrow-right"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about-section section" id="about">
-      <div class="section-header">
-        <h2 class="section-title">About Me</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="about-grid">
-        <div class="about-info">
-          <h3 class="about-subtitle">AI Developer & Competitive Athlete</h3>
-          <p class="about-text" id="about-bio">
-            Loading biography...
-          </p>
-          <div class="personal-details-grid" id="about-details">
-            <!-- Details generated dynamically -->
-          </div>
-        </div>
-        <div class="about-stats-card">
-          <div class="glass-card stats-card">
-            <div class="stats-header">
-              <i class="fas fa-shield-halved stats-icon"></i>
-              <span>Core Metrics</span>
-            </div>
-            <div class="metrics-grid">
-              <div class="metric-item">
-                <span class="metric-number">8+</span>
-                <span class="metric-label">AI & BI Projects</span>
-              </div>
-              <div class="metric-item">
-                <span class="metric-number">3x</span>
-                <span class="metric-label">State Champion</span>
-              </div>
-              <div class="metric-item">
-                <span class="metric-number">1</span>
-                <span class="metric-label">Research Paper</span>
-              </div>
-              <div class="metric-item">
-                <span class="metric-number">100%</span>
-                <span class="metric-label">Commitment</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section class="skills-section section" id="skills">
-      <div class="section-header">
-        <h2 class="section-title">Skills & Expertise</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="skills-grid" id="skills-container">
-        <!-- Skills generated dynamically -->
-      </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section class="projects-section section" id="projects">
-      <div class="section-header">
-        <h2 class="section-title">Featured Projects</h2>
-        <div class="section-line"></div>
+    <!-- 1. OS System Header Bar -->
+    <header class="os-header">
+      <div class="header-left">
+        <span class="os-logo">AuraOS<span class="pulse-dot"></span></span>
+        <span class="header-divider">|</span>
+        <span class="system-time" id="system-clock">00:00:00</span>
       </div>
       
-      <!-- Project Controls -->
-      <div class="project-controls">
-        <div class="search-bar">
-          <i class="fas fa-search search-icon"></i>
-          <input type="text" id="project-search" placeholder="Search by tech stack or keyword (e.g. RAG, Random Forest)...">
+      <div class="header-center">
+        <span>AI Developer Command Workstation v1.2</span>
+      </div>
+      
+      <div class="header-right">
+        <div class="status-indicator">
+          <span class="status-lbl">CPU:</span>
+          <span class="status-val" id="cpu-load">12%</span>
         </div>
-        <div class="filter-tabs" id="filter-tabs">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="Generative AI">Generative AI</button>
-          <button class="filter-btn" data-filter="Machine Learning">Machine Learning</button>
-          <button class="filter-btn" data-filter="Data Visualization">Data Viz</button>
-          <button class="filter-btn" data-filter="Automation">Automation</button>
+        <div class="status-indicator">
+          <span class="status-lbl">SYS MODE:</span>
+          <span class="status-val" id="engine-status" style="color: var(--secondary-light);">Offline Matcher</span>
         </div>
+        <button class="chat-settings-btn" id="os-settings-btn" title="AI Settings">
+          <i class="fas fa-sliders-h"></i>
+        </button>
       </div>
+    </header>
 
-      <div class="projects-grid" id="projects-container">
-        <!-- Projects generated dynamically -->
-      </div>
-    </section>
-
-    <!-- Experience & Education Timeline -->
-    <section class="timeline-section section" id="timeline">
-      <div class="section-header">
-        <h2 class="section-title">Education & Credentials</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="timeline-container" id="timeline-container">
-        <!-- Timeline items generated dynamically -->
-      </div>
-    </section>
-
-    <!-- Achievements Section -->
-    <section class="achievements-section section" id="achievements">
-      <div class="section-header">
-        <h2 class="section-title">Achievements & Activities</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="achievements-grid" id="achievements-container">
-        <!-- Achievements generated dynamically -->
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact-section section" id="contact">
-      <div class="section-header">
-        <h2 class="section-title">Get In Touch</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="contact-grid">
-        <div class="contact-info-cards" id="contact-info-container">
-          <!-- Contact information cards -->
+    <!-- 2. Main Workspace Grid layout -->
+    <div class="os-workspace">
+      
+      <!-- LEFT TOOLBAR (App selector ribbon) -->
+      <aside class="app-ribbon">
+        <div class="ribbon-top">
+          <button class="ribbon-btn active" data-tab="physics" title="Interactive Physics Map">
+            <i class="fas fa-network-wired"></i>
+            <span class="ribbon-lbl">CORE</span>
+          </button>
+          <button class="ribbon-btn" data-tab="profile" title="Developer Profile HUD">
+            <i class="fas fa-user-astronaut"></i>
+            <span class="ribbon-lbl">BIO</span>
+          </button>
+          <button class="ribbon-btn" data-tab="skills" title="Skills Matrix">
+            <i class="fas fa-sliders-h"></i>
+            <span class="ribbon-lbl">SLIDERS</span>
+          </button>
+          <button class="ribbon-btn" data-tab="projects" title="Featured Projects Gallery">
+            <i class="fas fa-folder-open"></i>
+            <span class="ribbon-lbl">FILES</span>
+          </button>
         </div>
-        <div class="contact-form-wrapper">
-          <form class="glass-card contact-form" id="contact-form">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="form-name">Name</label>
-                <input type="text" id="form-name" required placeholder="John Doe">
+        
+        <div class="ribbon-bottom">
+          <button class="ribbon-btn" id="mic-trigger-btn" title="Voice AI Commands Toggle">
+            <i class="fas fa-microphone"></i>
+            <span class="ribbon-lbl">VOICE</span>
+          </button>
+          <button class="ribbon-btn" id="sound-toggle-btn" title="Alert Sound Synths Toggle">
+            <i class="fas fa-volume-up"></i>
+            <span class="ribbon-lbl">SOUND</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- CENTER DISPLAY VIEWPORT (Active Window) -->
+      <main class="viewport-canvas">
+        
+        <!-- SECTION 1: Physics Node Graph Canvas (Default Active) -->
+        <div class="viewport-section active" id="viewport-physics">
+          <div class="window-header">
+            <div class="window-header-left">
+              <span class="pulse-dot green"></span>
+              <strong>SYSTEMS GRAPH VIEWPORT</strong>
+            </div>
+            <span class="window-subtitle">Drag nodes to test forces. Double click project nodes for details.</span>
+          </div>
+          <div class="canvas-wrapper">
+            <canvas id="physics-canvas"></canvas>
+          </div>
+        </div>
+
+        <!-- SECTION 2: Profile HUD -->
+        <div class="viewport-section" id="viewport-profile">
+          <div class="window-header">
+            <div class="window-header-left">
+              <i class="fas fa-user-astronaut"></i>
+              <strong>DEVELOPER BIOGRAPHY HUD</strong>
+            </div>
+          </div>
+          
+          <div class="profile-scroll-box">
+            <div class="profile-hud-grid">
+              <div class="glass-card profile-bio-card">
+                <h3>Harsh Singh</h3>
+                <span class="profile-role-sub" id="typewriter">AI / ML Engineer</span>
+                <p class="profile-bio-text" id="about-bio">Loading bio details...</p>
+                
+                <div class="profile-stats-grid">
+                  <div class="stat-hud-item">
+                    <span class="stat-hud-lbl">State Championships</span>
+                    <span class="stat-hud-val">3x Arm Wrestling</span>
+                  </div>
+                  <div class="stat-hud-item">
+                    <span class="stat-hud-lbl">Academic Research</span>
+                    <span class="stat-hud-val">1 Paper Co-authored</span>
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <label for="form-email">Email</label>
-                <input type="email" id="form-email" required placeholder="john@example.com">
+
+              <div class="glass-card profile-info-card">
+                <h4>System Coordinates</h4>
+                <div class="info-list" id="about-details">
+                  <!-- Generated dynamically -->
+                </div>
+                
+                <h4 style="margin-top: 20px;">Credentials Timeline</h4>
+                <div class="timeline-hud-list" id="timeline-container">
+                  <!-- Generated dynamically -->
+                </div>
               </div>
             </div>
-            <div class="form-group">
-              <label for="form-subject">Subject</label>
-              <input type="text" id="form-subject" required placeholder="Project Inquiries, Job Role, etc.">
+
+            <h4 style="margin-top: 30px; margin-bottom: 15px;">System Accolades & Hobbies</h4>
+            <div class="achievements-hud-grid" id="achievements-container">
+              <!-- Generated dynamically -->
             </div>
-            <div class="form-group">
-              <label for="form-message">Message</label>
-              <textarea id="form-message" rows="5" required placeholder="Write your message details here..."></textarea>
+          </div>
+        </div>
+
+        <!-- SECTION 3: Skills Matrix -->
+        <div class="viewport-section" id="viewport-skills">
+          <div class="window-header">
+            <div class="window-header-left">
+              <i class="fas fa-sliders-h"></i>
+              <strong>TECHNICAL PROFICIENCY MATRICES</strong>
             </div>
-            <button type="submit" class="primary-btn submit-btn" id="form-submit-btn">
-              <span>Send Message</span>
-              <i class="fas fa-paper-plane"></i>
-            </button>
-            <div class="form-status" id="form-status"></div>
+          </div>
+          <div class="skills-hud-grid" id="skills-container">
+            <!-- Generated dynamically -->
+          </div>
+        </div>
+
+        <!-- SECTION 4: Projects Classic Gallery -->
+        <div class="viewport-section" id="viewport-projects">
+          <div class="window-header">
+            <div class="window-header-left">
+              <i class="fas fa-folder-open"></i>
+              <strong>PROJECT REPOSITORIES SYSTEM</strong>
+            </div>
+          </div>
+          
+          <div class="project-controls">
+            <div class="search-bar">
+              <i class="fas fa-search search-icon"></i>
+              <input type="text" id="project-search" placeholder="Filter projects by technology stack...">
+            </div>
+            <div class="filter-tabs" id="filter-tabs">
+              <button class="filter-btn active" data-filter="all">All</button>
+              <button class="filter-btn" data-filter="Generative AI">Generative AI</button>
+              <button class="filter-btn" data-filter="Machine Learning">Machine Learning</button>
+              <button class="filter-btn" data-filter="Data Visualization">Data Viz</button>
+              <button class="filter-btn" data-filter="Automation">Automation</button>
+            </div>
+          </div>
+
+          <div class="projects-hud-grid-scroll">
+            <div class="projects-grid" id="projects-container">
+              <!-- Generated dynamically -->
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+      <!-- RIGHT PANEL: TERMINAL & AI CHAT WORKSTATION -->
+      <aside class="right-workstation">
+        
+        <!-- TOP: MOCK CLI TERMINAL -->
+        <div class="glass-card terminal-window">
+          <div class="terminal-header">
+            <div class="window-dots">
+              <div class="dot red"></div>
+              <div class="dot yellow"></div>
+              <div class="dot green"></div>
+            </div>
+            <span class="terminal-title-text"><i class="fas fa-terminal"></i> guest@auraos: ~</span>
+            <span class="terminal-zoom">100%</span>
+          </div>
+          
+          <div class="terminal-body" id="terminal-body-scroll">
+            <div id="terminal-logs">
+              <div class="terminal-log-line">AuraOS System Terminal v1.0 (bash)</div>
+              <div class="terminal-log-line">Type 'help' to list available system console commands. Challenge Harsh in 'wrestle'!</div>
+              <div class="terminal-log-line"><br></div>
+            </div>
+            <div class="terminal-prompt-line">
+              <span class="prompt-user">guest@auraos:~$</span>
+              <input type="text" id="terminal-input" placeholder="Type CLI command..." autocomplete="off">
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM: INTEGRATED GRAPHICS CHAT INTERFACE -->
+        <div class="glass-card chat-panel-window">
+          <div class="chat-window-header">
+            <div class="chat-header-info">
+              <div class="bot-status-ring"><span class="status-pulse"></span></div>
+              <strong>AI Clone Agent Console</strong>
+            </div>
+            <span class="chat-mode-badge" id="chat-mode-lbl">Offline Matcher</span>
+          </div>
+
+          <div class="chat-body" id="chat-messages">
+            <!-- Messages stream -->
+            <div class="message bot-message">
+              <div class="message-content">
+                System online. I am the AI replication of **Harsh Singh**. I can outline his coding projects, credentials, and fitness achievements. How can I help you?
+              </div>
+            </div>
+          </div>
+
+          <!-- Suggestions panel -->
+          <div class="chat-suggestions-hud">
+            <div class="chat-suggestions" id="chat-suggestions">
+              <button class="suggest-btn">Tell me about NexusAST</button>
+              <button class="suggest-btn">What are your skills?</button>
+              <button class="suggest-btn">Explain SolarMind AI</button>
+            </div>
+          </div>
+
+          <form class="chat-input-row" id="chat-form-submit">
+            <input type="text" id="chat-user-input" placeholder="Ask agent questions about Harsh..." autocomplete="off">
+            <button type="submit" class="send-prompt-btn" aria-label="Submit prompt">➔</button>
           </form>
         </div>
-      </div>
-    </section>
-  </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-bottom">
-      <p>&copy; 2026 Harsh Singh. All rights reserved.</p>
-      <p class="footer-tag">Crafted using Premium Vanilla Tech & Embedded AI</p>
-    </div>
-  </footer>
+      </aside>
 
-  <!-- Project Details Modal -->
-  <div class="modal-overlay" id="project-modal">
-    <div class="glass-card modal-container">
-      <button class="modal-close-btn" id="modal-close" aria-label="Close modal">
-        <i class="fas fa-times"></i>
-      </button>
-      <div class="modal-body" id="modal-body">
-        <!-- Dynamic Modal Content -->
-      </div>
     </div>
   </div>
 
-  <!-- AI Chatbot Panel Drawer -->
-  <div class="chat-drawer" id="chat-drawer">
-    <div class="chat-header">
-      <div class="chat-header-info">
-        <div class="chat-bot-avatar">🤖</div>
-        <div>
-          <h3 class="chat-bot-name">Harsh's AI Clone</h3>
-          <span class="chat-status"><span class="status-pulse"></span>Active</span>
-        </div>
-      </div>
-      <div class="chat-header-actions">
-        <button class="chat-settings-btn" id="chat-settings-toggle" title="Settings">
-          <i class="fas fa-cog"></i>
+  <!-- 3. Dynamic OS Settings Slide Panel -->
+  <div class="chat-settings-panel" id="chat-settings-panel">
+    <div class="settings-header">
+      <h4><i class="fas fa-sliders-h"></i> OS System Config</h4>
+      <button class="settings-close" id="settings-close-btn">&times;</button>
+    </div>
+    <p class="settings-desc">Link your Google Gemini API key to upgrade from Offline parsing mode to real conversational LLM interactions.</p>
+    <div class="form-group">
+      <label for="api-key-input">Gemini API Key</label>
+      <div class="key-input-wrapper">
+        <input type="password" id="api-key-input" placeholder="AIzaSy...">
+        <button class="toggle-password-btn" id="toggle-key-visibility">
+          <i class="fas fa-eye"></i>
         </button>
-        <button class="chat-close-btn" id="close-chat-btn" title="Close Panel">
+      </div>
+    </div>
+    <div class="settings-actions">
+      <button class="settings-save-btn" id="save-key-btn">Save Configuration</button>
+      <button class="settings-clear-btn" id="clear-key-btn">Clear Key</button>
+    </div>
+    <p class="key-note">Your key is stored securely in your browser's local storage and is sent directly to Google Gemini APIs.</p>
+  </div>
+
+  <!-- 4. Project Details OS Modal window -->
+  <div class="modal-overlay" id="project-modal">
+    <div class="glass-card modal-container">
+      <div class="modal-window-header">
+        <div class="window-dots">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+        </div>
+        <span id="modal-window-title">PROJECT_SPECS.log</span>
+        <button class="modal-close-btn" id="modal-close" aria-label="Close modal">
           <i class="fas fa-times"></i>
         </button>
       </div>
-    </div>
-
-    <!-- API Key Settings Popup Drawer inside Chat -->
-    <div class="chat-settings-panel" id="chat-settings-panel">
-      <h4>AI Engine Configuration</h4>
-      <p class="settings-desc">By default, this agent uses local rule-based smart queries. Enter your Gemini API Key to enable true LLM conversations.</p>
-      <div class="form-group">
-        <label for="api-key-input">Gemini API Key</label>
-        <div class="key-input-wrapper">
-          <input type="password" id="api-key-input" placeholder="AIzaSy...">
-          <button class="toggle-password-btn" id="toggle-key-visibility">
-            <i class="fas fa-eye"></i>
-          </button>
-        </div>
-      </div>
-      <div class="settings-actions">
-        <button class="settings-save-btn" id="save-key-btn">Save Key</button>
-        <button class="settings-clear-btn" id="clear-key-btn">Clear Key</button>
-      </div>
-      <p class="key-note">Your key is stored securely in your browser's local storage and is sent directly to Google Gemini APIs.</p>
-    </div>
-
-    <!-- Chat Messages list -->
-    <div class="chat-messages" id="chat-messages">
-      <!-- Default Welcome Message -->
-      <div class="message bot-message">
-        <div class="message-content">
-          Hi! I am the AI replica of <strong>Harsh Singh</strong>. I know everything about his projects, technical expertise, athletic achievements, and background. 
-          <br><br>
-          How can I help you today? You can ask me questions or click one of the suggestions below!
-        </div>
-        <span class="message-time">Just now</span>
+      <div class="modal-body" id="modal-body">
+        <!-- Dynamic Content -->
       </div>
     </div>
+  </div>
 
-    <!-- Quick Suggestions -->
-    <div class="chat-suggestions-container">
-      <span class="suggestions-label">Suggested Queries:</span>
-      <div class="chat-suggestions" id="chat-suggestions">
-        <button class="suggest-btn">Tell me about NexusAST</button>
-        <button class="suggest-btn">What are your AI/ML skills?</button>
-        <button class="suggest-btn">Are you an Arm Wrestling Champion?</button>
-        <button class="suggest-btn">Explain SolarMind AI</button>
-        <button class="suggest-btn">How can I contact you?</button>
-      </div>
+  <!-- Voice recognition feedback display overlay -->
+  <div class="voice-overlay-hud" id="voice-overlay">
+    <div class="voice-hud-box">
+      <i class="fas fa-microphone mic-pulse"></i>
+      <h3>AuraVoice Listening</h3>
+      <p id="voice-transcript">Speak now (e.g. "show me NexusAST", "tell me about achievements")</p>
     </div>
-
-    <!-- Input Box -->
-    <form class="chat-input-container" id="chat-form-submit">
-      <input type="text" id="chat-user-input" required placeholder="Ask about projects, skills, education..." autocomplete="off">
-      <button type="submit" class="chat-send-btn" id="chat-send-btn" aria-label="Send message">
-        <i class="fas fa-paper-plane"></i>
-      </button>
-    </form>
   </div>
 
   <!-- Scripts -->
   <script src="portfolio-data.js"></script>
+  <script src="terminal.js"></script>
+  <script src="canvas-graph.js"></script>
   <script src="ai-agent.js"></script>
   <script src="app.js"></script>
 </body>
